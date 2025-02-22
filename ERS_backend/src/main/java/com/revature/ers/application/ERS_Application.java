@@ -14,7 +14,7 @@ public class ERS_Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ERS_Application.class, args);
-		System.out.println("hello world!");
+		System.out.println("I'm running!");
 	}
 
 }

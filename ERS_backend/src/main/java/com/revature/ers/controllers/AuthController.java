@@ -1,4 +1,5 @@
 package com.revature.ers.controllers;
+import com.revature.ers.models.DTOs.OutgoingEmployeeDTO;
 import com.revature.ers.services.AuthService;
 import com.revature.ers.models.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,9 @@ public class AuthController {
     }
 
     @PostMapping("/register") //Requests ending in /auth/register will invoke this method
-    public ResponseEntity<Employee> registerUser(@RequestBody Employee employee){
+    public ResponseEntity<OutgoingEmployeeDTO> registerEmployee(@RequestBody Employee employee){
 
-        Employee returnedEmployee = authService.registerEmployee(employee);
+        OutgoingEmployeeDTO returnedEmployee = authService.registerEmployee(employee);
 
         //Send the inserted User back to the client in a response
         return ResponseEntity.ok(returnedEmployee);

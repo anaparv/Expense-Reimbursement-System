@@ -1,6 +1,7 @@
 package com.revature.ers.services;
 
 import com.revature.ers.DAOs.EmployeeDAO;
+import com.revature.ers.models.DTOs.OutgoingEmployeeDTO;
 import com.revature.ers.models.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,13 +16,18 @@ public class AuthService {
         this.employeeDAO = employeeDAO;
     }
 
-    public Employee registerEmployee(Employee employee){
+    public OutgoingEmployeeDTO registerEmployee(Employee employee){
 
-        //TODO: input validation - Tuesday
+        Employee returnedEmployee = employeeDAO.save(employee); //save() returns the inserted data. Convenient!
 
-        //We use the save() method to insert data into the DB
-        //save() is one of the methods we inherited from JpaRepository
-        return employeeDAO.save(employee); //save() returns the inserted data. Convenient!
+        //We need to convert the User to a UserDTO before we send it to the client
+        OutgoingEmployeeDTO outEmployeeDTO = new OutgoingEmployeeDTO(
+                returnedEmployee.getUserId(),
+                returnedEmployee.getUsername(),
+                returnedEmployee.getRole()
+        );
+
+        return outEmployeeDTO;
 
     }
 
