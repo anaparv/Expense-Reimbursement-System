@@ -4,11 +4,12 @@ import com.revature.ers.DAOs.EmployeeDAO;
 import com.revature.ers.models.DTOs.OutgoingEmployeeDTO;
 import com.revature.ers.models.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Service
 public class EmployeeService {
 
     //Autowire the DAO so we can use its method
