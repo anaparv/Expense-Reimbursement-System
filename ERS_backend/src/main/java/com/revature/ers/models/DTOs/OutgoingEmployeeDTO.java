@@ -1,5 +1,7 @@
 package com.revature.ers.models.DTOs;
 
+import com.revature.ers.models.Employee;
+
 public class OutgoingEmployeeDTO {
 
     private int userId;
@@ -13,6 +15,14 @@ public class OutgoingEmployeeDTO {
         this.userId = userId;
         this.username = username;
         this.role = role;
+    }
+
+    //see this in use in get all users in UserService
+    //way cleaner way to format a User into a DTO
+    public OutgoingEmployeeDTO(Employee e) {
+        this.userId = e.getUserId();
+        this.username = e.getUsername();
+        this.role = e.getRole();
     }
 
     public int getUserId() {

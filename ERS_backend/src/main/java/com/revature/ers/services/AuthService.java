@@ -18,9 +18,12 @@ public class AuthService {
 
     public OutgoingEmployeeDTO registerEmployee(Employee employee){
 
-        Employee returnedEmployee = employeeDAO.save(employee); //save() returns the inserted data. Convenient!
+        // 1. save employee data in db
+        // 2. save() returns the inserted data in a Employee (model object)
+        Employee returnedEmployee = employeeDAO.save(employee);
 
-        //We need to convert the User to a UserDTO before we send it to the client
+        // We need to convert the Employee to a EmployeeDTO before we send it to the client
+        // by creating OutgoingEmployeeDTO object and populate it's fields with the returned fields from returnedEmployee^
         OutgoingEmployeeDTO outEmployeeDTO = new OutgoingEmployeeDTO(
                 returnedEmployee.getUserId(),
                 returnedEmployee.getUsername(),
