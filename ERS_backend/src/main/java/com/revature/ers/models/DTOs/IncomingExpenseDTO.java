@@ -7,25 +7,36 @@ package com.revature.ers.models.DTOs;
 //SOLUTION: just pass in the User's ID instead of the whole object
 //Side note: we'll also leave out gameId since the DB handles that
 public class IncomingExpenseDTO {
-    private String title;
+    private String status;
     private String description;
-    private int userId;
+    private double amount;
+
+    private int employeeId;
 
     public IncomingExpenseDTO() {
     }
 
-    public IncomingExpenseDTO(String title, String description, int userId) {
-        this.title = title;
+    public IncomingExpenseDTO(String status, String description, double amount, int employeeId) {
+        this.status = status;
         this.description = description;
-        this.userId = userId;
+        this.amount = amount;
+        this.employeeId = employeeId;
     }
 
-    public String getTitle() {
-        return title;
+    public int getEmployeeId() {
+        return employeeId;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getDescription() {
@@ -36,20 +47,20 @@ public class IncomingExpenseDTO {
         this.description = description;
     }
 
-    public int getUserId() {
-        return userId;
+    public double getAmount() {
+        return amount;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
-
     @Override
     public String toString() {
         return "IncomingExpenseDTO{" +
-                "title='" + title + '\'' +
+                "status='" + status + '\'' +
                 ", description='" + description + '\'' +
-                ", userId=" + userId +
+                ", amount=" + amount +
+                ", employeeId=" + employeeId +
                 '}';
     }
 }

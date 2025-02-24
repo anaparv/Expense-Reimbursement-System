@@ -4,7 +4,8 @@ import { Login } from "./Components/LoginRegister/Login";
 import "bootstrap/dist/css/bootstrap.css";
 import { Register } from "./Components/LoginRegister/Register";
 import { EmployeeTable } from "./Components/Employee/EmployeeTable";
-import { ExpenseTable } from "./Components/Expenses/ExpenseTable";
+import { ExpensePage } from "./Components/Expenses/ExpensePage";
+import { AddExpense } from "./Components/Expenses/AddExpense";
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
           <Route path="" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="employees" element={<EmployeeTable />} />
-          <Route path="expenses" element={<ExpenseTable />} />
+          <Route path="employees/expenses" element={<ExpensePage />} />
+          <Route path="employees/add-expense" element={<AddExpense />} />
         </Routes>
       </BrowserRouter>
     </>

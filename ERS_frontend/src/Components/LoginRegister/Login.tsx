@@ -43,6 +43,17 @@ export const Login: React.FC = () => {
     //TODO: make sure the username/password are present before proceeding
 
     try {
+      // handle username & password are present
+      if (
+        loginCreds.username.length === 0 ||
+        loginCreds.password.length === 0
+      ) {
+        alert("Username or password cannot be empty!");
+
+        // return: exit function
+        return;
+      }
+
       const response = await axios.post(
         "http://localhost:8080/auth/login",
         loginCreds,
@@ -52,7 +63,8 @@ export const Login: React.FC = () => {
       //every request that depends on the user being logged in, being an admin, etc, needs this
 
       //if the catch doesn't run, login was successful! save the data to our global store, then switch components
-      store.loggedInUser = response.data; //this is our logged in user data from the backend
+      // store.loggedInUser = response.data; //this is our logged in user data from the backend
+      localStorage.setItem("user", JSON.stringify(response.data));
 
       //greet the user with this newly stored data
       alert(store.loggedInUser.username + " has logged in! Welcome.");
@@ -61,7 +73,7 @@ export const Login: React.FC = () => {
       if (store.loggedInUser.role === "admin") {
         navigate("/employees");
       } else {
-        navigate("/expenses");
+        navigate("/employees/expenses");
       }
     } catch {
       alert("Login unsuccessful");

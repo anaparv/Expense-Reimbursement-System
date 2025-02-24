@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/expenses")
+@RequestMapping("/expense")
 @CrossOrigin //allows HTTP requests from anywhere
 public class ExpenseController {
     //autowire the service
@@ -20,11 +22,18 @@ public class ExpenseController {
     }
 
     //A method that inserts a new game into the DB
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Expense> insertExpense(@RequestBody IncomingExpenseDTO incomingExpenseDTO){
 
         //send the DTO to the service and return the VideoGame object that comes back
         return ResponseEntity.accepted().body(expenseService.insertExpense(incomingExpenseDTO));
 
+    }
+
+    @GetMapping("/{employeeId}/history")
+    public ResponseEntity<List<Expense>> getEmployeeExpenseHistory(@PathVariable int employeeId){
+
+        List<Expense> employeeExpenseList = expenseService.getAllExpensesForEmployee(employeeId);
+        return ResponseEntity.ok(employeeExpenseList);
     }
 }

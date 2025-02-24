@@ -17,6 +17,10 @@ public class AuthService {
         this.employeeDAO = employeeDAO;
     }
 
+    public boolean checkIfEmployeeExists(String username){
+        return employeeDAO.findByUsername(username).isPresent();
+    }
+
     public OutgoingEmployeeDTO registerEmployee(Employee employee){
 
         // 1. save employee data in db

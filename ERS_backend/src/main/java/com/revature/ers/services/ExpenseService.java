@@ -8,6 +8,7 @@ import com.revature.ers.models.Expense;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,14 +34,15 @@ public class ExpenseService {
         //null for the User since we need to get it first
         Expense newExpense = new Expense(
                 0,
-                incomingExpenseDTO.getTitle(),
+                incomingExpenseDTO.getStatus(),
                 incomingExpenseDTO.getDescription(),
+                incomingExpenseDTO.getAmount(),
                 null
         );
 
         //We need to use the userId from the DTO to get a User from the DB
         //findById() returns an Optional
-        Optional<Employee> incomingExpenseUserId = employeeDAO.findById(incomingExpenseDTO.getUserId());
+        Optional<Employee> incomingExpenseUserId = employeeDAO.findById(incomingExpenseDTO.getEmployeeId());
 
         //if the user doesn't exist it will be empty. Let's check for that
         if(incomingExpenseUserId.isEmpty()){
@@ -54,5 +56,9 @@ public class ExpenseService {
         //save the new game to the DB, and return it to the controller
         return expenseDAO.save(newExpense);
 
+    }
+
+    public List<Expense> getAllExpensesForEmployee(int employeeId){
+        return expenseDAO.findByEmployee_UserId(employeeId);
     }
 }

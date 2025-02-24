@@ -12,4 +12,5 @@ public interface EmployeeDAO extends JpaRepository<Employee, Integer> {
     //If it returns null, the user doesn't exist and login fails
     //If it returns a User object, the user exists and login succeeds
     public Optional<Employee> findByUsernameAndPassword(String username, String password);
+    public Optional<Employee> findByUsername(String username);
 }

@@ -5,6 +5,7 @@ import com.revature.ers.services.AuthService;
 import com.revature.ers.models.Employee;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,13 @@ public class AuthController {
 
     @PostMapping("/register") //Requests ending in /auth/register will invoke this method
     public ResponseEntity<OutgoingEmployeeDTO> registerEmployee(@RequestBody Employee employee){
+
+        boolean exists = authService.checkIfEmployeeExists(employee.getUsername());
+        System.out.println(exists);
+
+        if(exists){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
 
         OutgoingEmployeeDTO returnedEmployee = authService.registerEmployee(employee);
 

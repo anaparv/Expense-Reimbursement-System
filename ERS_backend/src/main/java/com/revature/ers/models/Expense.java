@@ -11,9 +11,10 @@ public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int expenseId;
-    @Column(nullable = false) //every game must have a title
-    private String title;
+    private String status;
+    @Column(nullable = false) //every expense must have a title
     private String description;
+    private double amount;
 
     /* FK connection to the users table PK
 
@@ -36,11 +37,20 @@ public class Expense {
     public Expense() {
     }
 
-    public Expense(int expenseId, String title, String description, Employee employee) {
+    public Expense(int expenseId, String status, String description, double amount, Employee employee) {
         this.expenseId = expenseId;
-        this.title = title;
+        this.status = status;
         this.description = description;
+        this.amount = amount;
         this.employee = employee;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
     public int getExpenseId() {
@@ -51,12 +61,12 @@ public class Expense {
         this.expenseId = expenseId;
     }
 
-    public String getTitle() {
-        return title;
+    public String getStatus() {
+        return status;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getDescription() {
@@ -77,10 +87,11 @@ public class Expense {
 
     @Override
     public String toString() {
-        return "Expenses{" +
+        return "Expense{" +
                 "expenseId=" + expenseId +
-                ", title='" + title + '\'' +
+                ", status='" + status + '\'' +
                 ", description='" + description + '\'' +
+                ", amount=" + amount +
                 ", employee=" + employee +
                 '}';
     }
