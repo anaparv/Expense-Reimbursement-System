@@ -30,7 +30,7 @@ public class Expense {
         -When we fetch a videogame, the DB fetches the appropriate user
 
      -JoinColumn: this is how we reference the PK of the users table*/
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.REMOVE}, fetch = FetchType.EAGER)
     @JoinColumn(name = "userId")
     private Employee employee;
 

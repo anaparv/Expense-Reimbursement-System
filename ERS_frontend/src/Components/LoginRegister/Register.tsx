@@ -2,8 +2,10 @@ import axios, { AxiosError } from "axios";
 import { useState, useRef, useEffect } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { store } from "../../GlobalData/store";
+import { useNavigate } from "react-router-dom";
 
 export const Register: React.FC = () => {
+  const navigate = useNavigate();
   const usernameRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -42,9 +44,13 @@ export const Register: React.FC = () => {
 
       //if the catch doesn't run, login was successful! save the data to our global store, then switch components
       store.loggedInUser = response.data; //this is our logged in user data from the backend
+      localStorage.setItem("user", JSON.stringify(response.data));
 
       //greet the user with this newly stored data
       alert(store.loggedInUser.username + " has registered! Welcome.");
+
+      //users will get sent to users component if they're an "admin", or the games component if they're a "user"
+      navigate("/expenses");
     } catch (error) {
       const err = error as unknown as AxiosError;
       console.log(error);
@@ -66,24 +72,28 @@ export const Register: React.FC = () => {
   };
 
   return (
-    <Container>
+    <Container style={{ width: "500px" }}>
       <div>
-        <h1>New here? Create an Account for free!</h1>
+        <h1 className="mb-5">Welcome</h1>
 
-        <div>
+        <h3 style={{ marginBottom: "30px" }}>
+          New here? Create an Account for free!
+        </h3>
+
+        <div style={{ marginBottom: "20px" }}>
+          <Form.Label>Username</Form.Label>
           <Form.Control
             type="text"
-            placeholder="username"
             name="username"
             ref={usernameRef}
             value={loginCreds.username}
             onChange={handleChange}
           />
         </div>
-        <div>
+        <div style={{ marginBottom: "30px" }}>
+          <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
-            placeholder="password"
             name="password"
             value={loginCreds.password}
             onChange={handleChange}

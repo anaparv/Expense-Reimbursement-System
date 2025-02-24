@@ -1,12 +1,17 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, Dispatch, SetStateAction } from "react";
 import { Container, Button, Form } from "react-bootstrap";
 import { store } from "../../GlobalData/store";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
-export const AddExpense: React.FC = () => {
-  const navigate = useNavigate();
+type AddExpenseProps = {
+  setShowAddExpense?: Dispatch<SetStateAction<boolean>>;
+  getAllExpenses?: () => void;
+};
 
+export const AddExpense: React.FC<AddExpenseProps> = ({
+  setShowAddExpense,
+  getAllExpenses,
+}) => {
   const [getExpenseInfo, setExpenseInfo] = useState({
     description: "",
     amount: "",
@@ -45,7 +50,8 @@ export const AddExpense: React.FC = () => {
       console.log(response);
 
       if (response.status === 202) {
-        navigate(-1);
+        if (getAllExpenses) getAllExpenses();
+        if (setShowAddExpense) setShowAddExpense(false);
       } else {
         alert("Couldn't register expense");
       }
@@ -66,10 +72,12 @@ export const AddExpense: React.FC = () => {
   }, []); //remember [] means this happens on component load
 
   return (
-    <Container>
-      <h1 className="mb-5">Add new expense</h1>
+    <Container style={{ width: "500px" }}>
+      <h1 className="mb-5">Add new Expense</h1>
+      <h3 style={{ marginBottom: "30px" }}>Please fill the form below:</h3>
 
-      <div>
+      <div style={{ marginBottom: "20px" }}>
+        <Form.Label>Description</Form.Label>
         <Form.Control
           type="text"
           placeholder="expense description"
@@ -81,7 +89,8 @@ export const AddExpense: React.FC = () => {
         />
       </div>
 
-      <div>
+      <div style={{ marginBottom: "30px" }}>
+        <Form.Label>Password</Form.Label>
         <Form.Control
           type="number"
           placeholder="expense amount"
@@ -91,7 +100,7 @@ export const AddExpense: React.FC = () => {
         />
       </div>
 
-      <Button variant="outline-success m-1" onClick={save}>
+      <Button variant="outline-success" onClick={save}>
         Add expense
       </Button>
     </Container>

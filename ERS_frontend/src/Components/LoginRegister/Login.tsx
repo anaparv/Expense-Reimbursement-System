@@ -65,15 +65,16 @@ export const Login: React.FC = () => {
       //if the catch doesn't run, login was successful! save the data to our global store, then switch components
       // store.loggedInUser = response.data; //this is our logged in user data from the backend
       localStorage.setItem("user", JSON.stringify(response.data));
+      store.loggedInUser = response.data;
 
       //greet the user with this newly stored data
-      alert(store.loggedInUser.username + " has logged in! Welcome.");
+      // alert(store.loggedInUser.username + " has logged in! Welcome.");
 
       //users will get sent to users component if they're an "admin", or the games component if they're a "user"
       if (store.loggedInUser.role === "admin") {
         navigate("/employees");
       } else {
-        navigate("/employees/expenses");
+        navigate("/expenses");
       }
     } catch {
       alert("Login unsuccessful");
@@ -81,14 +82,14 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <Container>
+    <Container style={{ width: "500px" }}>
       <h1 className="mb-5">Welcome</h1>
-      <h3>Please Log In:</h3>
+      <h3 style={{ marginBottom: "30px" }}>Please Log In:</h3>
 
-      <div>
+      <div style={{ marginBottom: "20px" }}>
+        <Form.Label>Username</Form.Label>
         <Form.Control
           type="text"
-          placeholder="username"
           name="username"
           ref={usernameRef} //attach our usernameRef here!
           //This is how our useRef knows what to focus.
@@ -96,21 +97,23 @@ export const Login: React.FC = () => {
         />
       </div>
 
-      <div>
-        <Form.Control
-          type="password"
-          placeholder="password"
-          name="password"
-          onChange={storeValues}
-        />
+      <div style={{ marginBottom: "30px" }}>
+        <Form.Label>Password</Form.Label>
+        <Form.Control type="password" name="password" onChange={storeValues} />
       </div>
 
-      <Button variant="outline-success m-1" onClick={login}>
-        Login
-      </Button>
-      <Button variant="outline-dark" onClick={() => navigate("/register")}>
-        Register
-      </Button>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "15px",
+        }}
+      >
+        <Button onClick={login}>Login</Button>
+        <Button variant="outline-primary" onClick={() => navigate("/register")}>
+          Register
+        </Button>
+      </div>
     </Container>
   );
 };

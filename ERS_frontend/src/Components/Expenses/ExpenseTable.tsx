@@ -8,7 +8,7 @@ export type Employee = {
 };
 
 export type ExpenseModel = {
-  expenseId: string;
+  expenseId: number;
   amount: number;
   description: string;
   status: string;
@@ -21,27 +21,47 @@ type ExpenseTableProps = {
   showEmployeeColumn: boolean;
   expenses: ExpenseModel[];
   isHistory?: boolean;
+  handleApprove?: (expenseId: number) => void;
+  handleDeny?: (expenseId: number) => void;
 };
 
 type ShowAdminCellsProps = {
   isBody?: boolean;
   expense?: ExpenseModel;
   isHistory?: boolean;
+  handleApprove?: (expenseId: number) => void;
+  handleDeny?: (expenseId: number) => void;
 };
 
 const ShowAdminCells: React.FC<ShowAdminCellsProps> = ({
   isBody,
   expense,
   isHistory,
+  handleApprove,
+  handleDeny,
 }) => {
   if (isBody && expense) {
     return (
       <>
         <td>{expense.employee.username}</td>
         {!isHistory ? (
-          <td>
-            <Button>Approve</Button>
-            <Button>Deny</Button>
+          <td style={{ display: "flex", gap: "10px" }}>
+            <Button
+              variant="outline-primary"
+              onClick={() => {
+                if (handleApprove) handleApprove(expense.expenseId);
+              }}
+            >
+              Approve
+            </Button>
+            <Button
+              variant="danger"
+              onClick={() => {
+                if (handleDeny) handleDeny(expense.expenseId);
+              }}
+            >
+              Deny
+            </Button>
           </td>
         ) : (
           <></>
@@ -63,7 +83,12 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
   showEmployeeColumn,
   expenses,
   isHistory,
+  handleApprove,
+  handleDeny,
 }) => {
+  if (expenses.length === 0) {
+    return <h3>There are no {expenseTableTitle.toLowerCase()}</h3>;
+  }
   return (
     <>
       <h3>{expenseTableTitle}</h3>
@@ -89,13 +114,15 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
                 <tr>
                   <td>{expense.expenseId}</td>
                   <td>{expense.description}</td>
-                  <td>{expense.amount}</td>
+                  <td>$ {expense.amount}</td>
                   <td>{expense.status}</td>
                   {showEmployeeColumn ? (
                     <ShowAdminCells
                       isBody={true}
                       expense={expense}
                       isHistory={isHistory}
+                      handleApprove={handleApprove}
+                      handleDeny={handleDeny}
                     />
                   ) : (
                     <></>

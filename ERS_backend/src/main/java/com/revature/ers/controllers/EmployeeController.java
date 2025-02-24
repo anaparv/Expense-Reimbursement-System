@@ -1,13 +1,11 @@
 package com.revature.ers.controllers;
 import com.revature.ers.aspects.AdminOnly;
 import com.revature.ers.models.DTOs.OutgoingEmployeeDTO;
+import com.revature.ers.models.Employee;
 import com.revature.ers.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,4 +30,11 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeService.getAllEmployees());
 
     }
+
+    @DeleteMapping("/delete/{employeeId}")
+    @AdminOnly
+    public ResponseEntity<Boolean> deleteEmployee(@PathVariable int employeeId){
+        return ResponseEntity.ok(employeeService.deleteEmployee(employeeId));
+    }
+
 }
