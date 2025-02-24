@@ -90,7 +90,7 @@ export const AddExpense: React.FC<AddExpenseProps> = ({
       </div>
 
       <div style={{ marginBottom: "30px" }}>
-        <Form.Label>Password</Form.Label>
+        <Form.Label>Amount</Form.Label>
         <Form.Control
           type="number"
           placeholder="expense amount"
