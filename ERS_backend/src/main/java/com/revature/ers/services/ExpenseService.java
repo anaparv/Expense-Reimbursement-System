@@ -5,6 +5,7 @@ import com.revature.ers.DAOs.ExpenseDAO;
 import com.revature.ers.models.DTOs.IncomingExpenseDTO;
 import com.revature.ers.models.Employee;
 import com.revature.ers.models.Expense;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,6 +60,56 @@ public class ExpenseService {
     }
 
     public List<Expense> getAllExpensesForEmployee(int employeeId){
+        Optional<Employee> employee = employeeDAO.findByUserId(employeeId);
+        if(employee.isPresent()){
+            String role = employee.get().getRole();
+            if(role.equals("admin")){
+                return expenseDAO.findAll();
+            }
+        }
+
         return expenseDAO.findByEmployee_UserId(employeeId);
+    }
+
+
+    public Expense approveExpense(int expenseId){
+        Optional<Expense> optionalExpense = expenseDAO.findById(expenseId);
+
+        // Check if the expense is present
+        if(optionalExpense.isPresent()) {
+            Expense expense = optionalExpense.get();
+
+            // Set the status to approved
+            expense.setStatus("approved");
+
+            // Save the updated expense
+            expenseDAO.save(expense);
+
+            // Return the updated expense
+            return expense;
+        } else {
+            // Handle case where expense is not found
+            throw new EntityNotFoundException("Expense not found with ID: " + expenseId);
+        }
+    }
+    public Expense denyExpense(int expenseId){
+        Optional<Expense> optionalExpense = expenseDAO.findById(expenseId);
+
+        // Check if the expense is present
+        if(optionalExpense.isPresent()) {
+            Expense expense = optionalExpense.get();
+
+            // Set the status to denied
+            expense.setStatus("denied");
+
+            // Save the updated expense
+            expenseDAO.save(expense);
+
+            // Return the updated expense
+            return expense;
+        } else {
+            // Handle case where expense is not found
+            throw new EntityNotFoundException("Expense not found with ID: " + expenseId);
+        }
     }
 }

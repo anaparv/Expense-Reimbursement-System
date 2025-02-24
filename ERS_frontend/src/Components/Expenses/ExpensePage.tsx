@@ -64,6 +64,7 @@ export const ExpensePage: React.FC = () => {
         showEmployeeColumn={isAdmin}
         expenseTableTitle={"Expenses history"}
         expenses={expenses.filter((e) => e.status === "approved")}
+        isHistory={true}
       />
     </>
   );

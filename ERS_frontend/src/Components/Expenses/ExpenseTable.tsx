@@ -1,8 +1,18 @@
+import { Button } from "react-bootstrap";
+
+export type Employee = {
+  password: string;
+  role: string;
+  userId: number;
+  username: string;
+};
+
 export type ExpenseModel = {
-  expense_id: string;
+  expenseId: string;
   amount: number;
   description: string;
   status: string;
+  employee: Employee;
   user_id: number;
 };
 
@@ -10,11 +20,49 @@ type ExpenseTableProps = {
   expenseTableTitle: string;
   showEmployeeColumn: boolean;
   expenses: ExpenseModel[];
+  isHistory?: boolean;
 };
+
+type ShowAdminCellsProps = {
+  isBody?: boolean;
+  expense?: ExpenseModel;
+  isHistory?: boolean;
+};
+
+const ShowAdminCells: React.FC<ShowAdminCellsProps> = ({
+  isBody,
+  expense,
+  isHistory,
+}) => {
+  if (isBody && expense) {
+    return (
+      <>
+        <td>{expense.employee.username}</td>
+        {!isHistory ? (
+          <td>
+            <Button>Approve</Button>
+            <Button>Deny</Button>
+          </td>
+        ) : (
+          <></>
+        )}
+      </>
+    );
+  }
+
+  return (
+    <>
+      <th scope="col">Employee</th>
+      {!isHistory ? <th scope="col">Actions</th> : <></>}
+    </>
+  );
+};
+
 export const ExpenseTable: React.FC<ExpenseTableProps> = ({
   expenseTableTitle,
   showEmployeeColumn,
   expenses,
+  isHistory,
 }) => {
   return (
     <>
@@ -27,7 +75,11 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
             <th scope="col">Description</th>
             <th scope="col">Amount</th>
             <th scope="col">Status</th>
-            {showEmployeeColumn ? <th scope="col">Employee</th> : <></>}
+            {showEmployeeColumn ? (
+              <ShowAdminCells isHistory={isHistory} />
+            ) : (
+              <></>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -35,11 +87,19 @@ export const ExpenseTable: React.FC<ExpenseTableProps> = ({
             return (
               <>
                 <tr>
-                  <td>{expense.expense_id}</td>
+                  <td>{expense.expenseId}</td>
                   <td>{expense.description}</td>
                   <td>{expense.amount}</td>
                   <td>{expense.status}</td>
-                  {showEmployeeColumn ? <td>{expense.user_id}</td> : <></>}
+                  {showEmployeeColumn ? (
+                    <ShowAdminCells
+                      isBody={true}
+                      expense={expense}
+                      isHistory={isHistory}
+                    />
+                  ) : (
+                    <></>
+                  )}
                 </tr>
               </>
             );

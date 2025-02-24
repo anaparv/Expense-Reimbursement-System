@@ -36,4 +36,17 @@ public class ExpenseController {
         List<Expense> employeeExpenseList = expenseService.getAllExpensesForEmployee(employeeId);
         return ResponseEntity.ok(employeeExpenseList);
     }
+
+    @PutMapping("/{expenseId}/approve")
+    public ResponseEntity<Expense> approveEmployeeExpense(@PathVariable int expenseId){
+        Expense response = expenseService.approveExpense(expenseId);
+        return ResponseEntity.ok(response);
+    }
+
+
+    @PutMapping("/{expenseId}/deny")
+    public ResponseEntity<Expense> denyEmployeeExpense(@PathVariable int expenseId){
+        Expense response = expenseService.denyExpense(expenseId);
+        return ResponseEntity.ok(response);
+    }
 }
